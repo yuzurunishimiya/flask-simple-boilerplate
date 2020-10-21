@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 
 from setup import DevelopmentConfig, ProductionConfig
 from connection import config
@@ -19,7 +19,7 @@ def handler_400(error):
     return jsonify({
         "succes": False,
         "code": 400,
-        "msg": error.description.get("message", "Bad request, 400"),
+        "msg": error.description,
         "data": []
     })
 
@@ -29,7 +29,7 @@ def handler_401(error):
     return jsonify({
         "success": False,
         "code": 401,
-        "message": error.description.get("message", "You are unatuhorize, 401"),
+        "message": error.description,
         "data": []
     })
 
@@ -39,9 +39,14 @@ def handler_403(error):
     return jsonify({
         "success": False,
         "code": 403,
-        "message": error.description.get("message", "Forbidden access! You are unauthenticate, 403"),
+        "message": error.description,
         "data": []
     })
+
+
+@app.errorhandler(404)
+def handler_404(error):
+    return render_template("content/notfound.html")
 
 
 if __name__ == "__main__":
