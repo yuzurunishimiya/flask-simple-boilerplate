@@ -1,13 +1,14 @@
 from flask import request, abort
 from flask_wtf import FlaskForm
 from functools import wraps
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, Length, EqualTo
 from wtforms import ( 
     StringField,
     PasswordField,
     BooleanField,
     SubmitField
 )
+from wtforms.fields.html5 import EmailField
 
 from connection import session
 import json
@@ -18,6 +19,13 @@ class LoginForm(FlaskForm):
     password = PasswordField("Password", validators=[DataRequired(message="Please fill out this field"), Length(min=8, max=30)])
     remember_me = BooleanField("Remember Me")
     submit = SubmitField("Sign In")
+
+class RegisterForm(FlaskForm):
+    username = StringField("Username", validators=[DataRequired(message="Username cannot be empty"), Length(min=8, max=30)])
+    password = PasswordField("Password", validators=[DataRequired(message="Password cannot be empty"), Length(min=8, max=30), EqualTo("confirm", message="password must match")])
+    confirm = PasswordField("Repeat Password", validators=[DataRequired("Repeat password must match with Password"), Length(min=8, max=30)])
+    email = EmailField("Email address", validators=[DataRequired()])
+
 
 class User():
 
