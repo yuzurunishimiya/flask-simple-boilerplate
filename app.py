@@ -7,10 +7,12 @@ from connection import config
 
 import os
 
-
+from routes.auth import auth_bp
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
+
+app.register_blueprint(auth_bp)
 
 if os.environ.get("mode", "development") == "production":
     app.config.from_object(ProductionConfig)
