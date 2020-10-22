@@ -10,4 +10,6 @@ else:
 
 db_client = MongoClient(config.MONGO_URI)
 db_name = db_client[config.MONGO_DBNAME]
+db_users = db_name["users"]
+
 session = Redis(host=config.REDIS_HOST, port=config.REDIS_PORT, db=0)
