@@ -1,8 +1,23 @@
-from connection import session
 from flask import request, abort
+from flask_wtf import FlaskForm
 from functools import wraps
+from wtforms.validators import DataRequired, Length
+from wtforms import ( 
+    StringField,
+    PasswordField,
+    BooleanField,
+    SubmitField
+)
+
+from connection import session
 import json
 
+
+class LoginForm(FlaskForm):
+    username = StringField("Username", validators=[DataRequired(message="Please fill out this field"), Length(min=8, max=30)])
+    password = PasswordField("Password", validators=[DataRequired(message="Please fill out this field"), Length(min=8, max=30)])
+    remember_me = BooleanField("Remember Me")
+    submit = SubmitField("Sign In")
 
 class User():
 
