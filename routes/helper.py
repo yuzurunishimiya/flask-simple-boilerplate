@@ -20,6 +20,7 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField("Remember Me")
     submit = SubmitField("Sign In")
 
+
 class RegisterForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired(message="Username cannot be empty"), Length(min=8, max=30)])
     password = PasswordField("Password", validators=[DataRequired(message="Password cannot be empty"), Length(min=8, max=30), EqualTo("confirm", message="password must match")])
