@@ -1,12 +1,16 @@
 from flask import Flask
 from flask import request, jsonify, render_template
+from flask_wtf.csrf import CSRFProtect
 
 from setup import DevelopmentConfig, ProductionConfig
 from connection import config
 
 import os
 
+
+
 app = Flask(__name__)
+csrf = CSRFProtect(app)
 
 if os.environ.get("mode", "development") == "production":
     app.config.from_object(ProductionConfig)
